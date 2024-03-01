@@ -1,0 +1,5 @@
+#define NEXTNODE(X) (Node *)(((void **)(X->value))[1])
+#define VALARR(X) (((void **)(X->value))[0])
+#define VALKEY(X) ((void **)(((void **)(X->value))[0])[0])
+#define VALVAL(X) ((void **)(((void **)(X->value))[0])[1])
+
