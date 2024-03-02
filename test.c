@@ -23,10 +23,9 @@ void strip(char *line,char *cpline);
 
 void main(int argc,char* argv[])
 {
-  double time1 = (double)clock(),timedif;
+  double time1 = (double)clock(),bfinsert,difinsert,timedif;
   time1 = time1/CLOCKS_PER_SEC;
   Dict *dct = Dictcreate(1,1);
-  List *keys = listcreate();
   /*FILE *file = NULL;
   char line[1000];
   file = fopen("test.txt","r");
@@ -58,13 +57,12 @@ void main(int argc,char* argv[])
   }
   Dictremove(dct,"situation");
   dcttopten(dct);*/
-  for (int i = 0; i < 10000000; i++)
+  for (int i = 0; i < 40000000; i++)
   {
     Dictinsert(dct,(void *)i,(void *)i);
-  }
+}
 
   printf("Dictcap:%d          Dict size:%d          list size:%d\n",dct->cap,dct->size,(dct->keys)->size);  
-  listdestroy(keys);
   Dictdestroy(dct);
   timedif = (((double) clock()) / CLOCKS_PER_SEC)-time1;
   printf("running time:%f\n",timedif);

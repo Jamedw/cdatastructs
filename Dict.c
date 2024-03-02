@@ -10,7 +10,7 @@
 #define VALVAL(X) (((void **)(((void **)(X->value))[0]))[1])
 #define STRING 0
 #define INTEGER 1
-double maxload = 2;
+double maxload = 1;
 
 unsigned long int Dicthash(int cap,void *key,int key_type)
 {
@@ -139,7 +139,6 @@ void *Dictget(Dict *dct,void *key) {
 
 void Dictinsert(Dict *dct, void *key, void *val)
 {
-  double t1 = (double)clock() / CLOCKS_PER_SEC,dif; 
   unsigned long int hash = Dicthash(dct->cap,key,dct->key_type);
   Linkedlist *current;
   if(!(current = (dct->array[hash])))
@@ -152,8 +151,6 @@ void Dictinsert(Dict *dct, void *key, void *val)
     listappend(dct->keys,key);
     dct->array[hash] = current;
     dct->size++;
-    dif = ((double)clock() / CLOCKS_PER_SEC)-t1;
-    printf("time elapse: %f\n",dif);
     resize(dct);
     return;
   }
@@ -165,8 +162,6 @@ void Dictinsert(Dict *dct, void *key, void *val)
       if(!Dictkeycmp(VALKEY(head),key,dct->key_type))
       {
         VALVAL(head) = val;
-        dif = ((double)clock() / CLOCKS_PER_SEC)-t1;
-        printf("time elapse: %f\n",dif);
         return;
       }
       else
@@ -182,8 +177,6 @@ void Dictinsert(Dict *dct, void *key, void *val)
     dct->size++;
     dct->array[hash] = current;
     resize(dct);
-    dif = ((double)clock() / CLOCKS_PER_SEC)-t1;
-    printf("time elapse: %f\n",dif);
     return;
   }
 
@@ -325,6 +318,7 @@ void resize(Dict *dct)
 {
   if((((double)dct->size)/dct->cap) >= maxload)
   {
+   
     List *keys = dct->keys;
     int precap = dct->cap, newcap = (dct->cap*4), i;
     dct->array = (Linkedlist **)realloc(dct->array,newcap*sizeof(Linkedlist *));
